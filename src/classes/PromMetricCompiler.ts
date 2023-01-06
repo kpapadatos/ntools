@@ -19,7 +19,7 @@ export class PromMetricCompiler {
             metricsTxt += `\n# TYPE ${name} ${type}`;
 
             for (const value of values) {
-                metricsTxt += this.compileValue(value);
+                metricsTxt += this.compileValue(name, value);
             }
 
             metricsTxt += '\n';
@@ -27,13 +27,13 @@ export class PromMetricCompiler {
 
         return metricsTxt;
     }
-    private compileValue({ value, labels }: IMetricValue) {
+    private compileValue(metricName: string, { value, labels }: IMetricValue) {
         let labelsStr = labels.map(({ name, value }) => `${name}="${value}"`).join(' ');
 
         if (labelsStr) {
             labelsStr = `{${labelsStr}}`;
         }
 
-        return `\n${name}${labelsStr} ${value}`;
+        return `\n${metricName}${labelsStr} ${value}`;
     }
 }
