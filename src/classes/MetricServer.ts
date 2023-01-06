@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { Server } from 'http';
+import { PromMetricCompiler } from './PromMetricCompiler';
 
 export class MetricServer {
     private static defaultOptions: IMetricServerOptions = {
@@ -40,26 +41,9 @@ export class MetricServer {
     }
     private async handler(_req: Request, res: Response) {
         const metrics = await this.factory();
-        let response = '';
+        const metricsTxt = PromMetricCompiler.compile(metrics);
 
-        for (const { name, help, type, values } of metrics) {
-            response += `\n# HELP ${name} ${help}`;
-            response += `\n# TYPE ${name} ${type}`;
-
-            for (const { value, labels } of values) {
-                let labelsStr = labels.map(({ name, value }) => `${name}="${value}"`).join(' ');
-
-                if (labelsStr) {
-                    labelsStr = `{${labelsStr}}`;
-                }
-
-                response += `\n${name}${labelsStr} ${value}`;
-            }
-
-            response += '\n';
-        }
-
-        res.end(response);
+        res.end(metricsTxt);
     }
 }
 
