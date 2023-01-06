@@ -1,6 +1,6 @@
 {
   "name": "@lunarade/ntools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,8 @@
     "watch": "tsc -w",
     "test": "npm run build && mocha -r source-map-support/register --timeout 50000 dist/**/*.test.js",
     "test-w": "concurrently npm:watch npm:mocha-w",
-    "mocha-w": "mocha -r source-map-support/register --timeout 50000 --watch --watch-files dist/**/*.js dist/**/*.js"
+    "mocha-w": "mocha -r source-map-support/register --timeout 50000 --watch --watch-files dist/**/*.js dist/**/*.js",
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
