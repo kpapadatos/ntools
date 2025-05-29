@@ -43,6 +43,8 @@ export class MetricServer {
         const metrics = await this.factory();
         const metricsTxt = PromMetricCompiler.compile(metrics);
 
+        res.setHeader('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+
         res.end(metricsTxt);
     }
 }
